@@ -1,0 +1,11 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+
+<h1 id="site-name"><img src="/static/ptw/images/Polar-Bear-side.svg" alt="Stena Icemax" width="100" height="64"><a href="{% url 'admin:index' %}"> PTW Administration</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+{% block dark-mode-vars %}{% endblock %}
