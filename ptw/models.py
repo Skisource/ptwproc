@@ -1,10 +1,50 @@
+import datetime
+import tablib
 from django.db import models
 from django.utils import timezone
+from import_export import resources
 
 # TODO: Equipment class
 # class Equipment(models.Model):
 #     equipment_description = models.CharField(max_length=64, default='TBC')
 #     equipment_maximo_tag = models.CharField(max_length=64, primary_key=True)
+class Restriction(models.Model):
+    restriction = models.CharField(primary_key=True, max_length=3)
+    restriction_details = models.CharField(max_length=200)
+    is_self_restriction = models.BooleanField()
+
+    def __unicode__(self):
+        return str(self.restriction)
+
+
+class SIMOPS(models.Model):
+    work_list = [
+        ('Basket Transfers', 'Basket Transfers'),
+        ('Bunkering Fuel and Base Oil', 'Bunkering Fuel and Base Oil'),
+        ('Confined Space Entry', 'Confined Space Entry'),
+        ('Crane Operations', 'Crane Operations'),
+        ('Drilling', 'Drilling'),
+        ('Managed Pressure Drilling', 'Managed Pressure Drilling'),
+        ('Explosive Handling', 'Explosive Handling'),
+        ('Helicopter Operations', 'Helicopter Operations'),
+        ('Hot Work', 'Hot Work'),
+        ('Man Riding Derrick', 'Man Riding Derrick'),
+        ('Man Riding Moonpool', 'Man Riding Moonpool'),
+        ('Pressure Testing', 'Pressure Testing'),
+        ('Radioactive Handling', 'Radioactive Handling'),
+        ('Supply Boat Operations', 'Supply Boat Operations'),
+        ('Well Testing', 'Well Testing'),
+        ('Wireline', 'Wireline'),
+        ('Overside Work', 'Overside Work'),
+        ('Running Marine Riser', 'Running Marine Riser'),
+        ('ROV Operations', 'ROV Operations'),
+        ('Riserless Drilling', 'Riserless Drilling'),
+        ('Critical Ballast', 'Critical Ballast'),
+    ]
+    work_type_1 = models.CharField(max_length=64, choices=work_list, blank=True)
+    work_type_2 = models.CharField(max_length=64, choices=work_list, blank=True)
+    are_conflicting = models.BooleanField()
+    restriction = models.ForeignKey(Restriction, on_delete=models.PROTECT, db_column='restriction')
 
 
 class PTW(models.Model):
@@ -27,29 +67,8 @@ class PTW(models.Model):
     planned_work_at = models.DateTimeField(default=timezone.now)
     work_description = models.CharField(max_length=64, default='TBC')
     # TODO: work types as per SIMOPS restriction matrix
-    work_type = models.CharField(max_length=64, blank=True, choices=[
-        ('Basket Transfers', 'Basket Transfers'),
-        ('Bunkering (Fuel and Base Oil)', 'Bunkering (Fuel and Base Oil)'),
-        ('Confined Space Entry', 'Confined Space Entry'),
-        ('Crane Operations', 'Crane Operations'),
-        ('Drilling', 'Drilling'),
-        ('Managed Pressure Drilling', 'Managed Pressure Drilling'),
-        ('Explosive Handling', 'Explosive Handling'),
-        ('Helicopter Operations', 'Helicopter Operations'),
-        ('Hot Work', 'Hot Work'),
-        ('Man Riding - Derrick', 'Man Riding - Derrick'),
-        ('Man Riding – Moonpool', 'Man Riding – Moonpool'),
-        ('Pressure Testing', 'Pressure Testing'),
-        ('Radioactive Handling', 'Radioactive Handling'),
-        ('Supply Boat Operations', 'Supply Boat Operations'),
-        ('Well Testing', 'Well Testing'),
-        ('Wireline', 'Wireline'),
-        ('Over the Side Work', 'Over the Side Work'),
-        ('Running Marine Riser', 'Running Marine Riser'),
-        ('ROV Operations', 'ROV Operations'),
-        ('Riserless Drilling', 'Riserless Drilling'),
-        ('Critical Ballast', 'Critical Ballast'),
-    ])
+    # work_type = models.ForeignKey(SIMOPS, on_delete=models.PROTECT, db_column='work_type_1')
+    work_type = models.CharField(max_length=64, blank=True)
     work_location = models.CharField(max_length=64, default='TBC')
     performing_authority = models.CharField(max_length=64, blank=True)
     permit_audit = models.IntegerField(default=0)
@@ -60,6 +79,8 @@ class PTW(models.Model):
 
     def check_conflicts(self):
         pass
+
+
 #     TODO: conflict check function as per SIMOPS restriction matrix
 
 #     As follows:
@@ -138,9 +159,16 @@ class Inhibit(models.Model):
     related_tags = models.CharField(max_length=60, default='TBC')
 
 
-class Restriction(models.Model):
-    id = models.CharField(primary_key=True, max_length=3)
-    restriction_details = models.CharField(max_length=200)
-    is_self_restriction = models.BooleanField()
+def get_total_audits(timedelta):
+    # gets total sum of permit audits for given number of days back
+    moment_in_the_past = timezone.now() - datetime.timedelta(days=timedelta)
+    data = PTW.objects.filter(created_at__gte=moment_in_the_past).values_list('permit_audit', flat=True)
+    return sum(data)
 
 
+def import_csv():
+    with open('ptw/static/ptw/data/restrictions.csv', 'r') as fh:
+        imported_data = tablib.Dataset().load(fh)
+        resource = resources.modelresource_factory(model=SIMOPS)()
+        result = resource.import_data(imported_data, dry_run=False)
+        print(result.has_errors())

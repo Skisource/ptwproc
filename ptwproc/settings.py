@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ptw.apps.PtwConfig',
+    'import_export',
 ]
 
 MIDDLEWARE = [

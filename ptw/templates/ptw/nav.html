@@ -1,10 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html lang="en-US">
+  <head>
+      <meta charset="utf-8" />
+        <title>Stena Home</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'ptw/css/bootstrap.css' %}"/>
+  </head>
 
+<nav class="navbar navbar-expand-lg">
+  <div class="container-xl">
+    <a class="navbar-brand"
+       href="{% url 'admin:index' %}">
+        <img src="{% static '/ptw/images/Polar-Bear-side.svg' %}" alt="Stena Icemax" width="100" height="64">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+          <form class="container-fluid justify-content-start">
+            <a class="btn btn-info" role="button" href="{% url 'ptw:home' %}">Home</a>
+            <a class="btn btn-info" role="button" href="{% url 'ptw:ptw_index' %}">PTW</a>
+            <a class="btn btn-info" role="button" href="{% url 'ptw:active_index' %}">Active IC</a>
+            <a class="btn btn-info" role="button" href="{% url 'ptw:longterm_index' %}">Longterm IC</a>
+            <a class="btn btn-info" role="button" href="{% url 'ptw:safe_entry' %}">Safe Entry</a>
+            <a class="btn btn-info" role="button" href="{% url 'ptw:inhibit' %}">Inhibit</a>
+          </form>
+      </div>
+    </div>
+      <div class="text">{% now "jS \o\f F Y \w\e\e\k \# W" %}</div>
+  </div>
+</nav>
+
+<body>
+<div class="container-xl">
+    {% block content %}
+
+    {% endblock %}
+</div>
 </body>
+
 </html>

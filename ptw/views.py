@@ -3,21 +3,24 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
-
-from .models import PTW, Isolation, Inhibit, SafeEntry
+import datetime
+from .models import PTW, Isolation, Inhibit, SafeEntry, get_total_audits
 
 
 # Create your views here.
 class IndexView(generic.TemplateView):
     template_name = 'ptw/index.html'
+    extra_context = {'audits': str(get_total_audits(7))}
+
 
 
 class PTWView(generic.ListView):
     template_name = 'ptw/ptw_index.html'
     context_object_name = 'latest_active_list'
 
+
     def get_queryset(self):
-        """Return the last ten authorized records"""
+        """Return authorized records"""
         return PTW.objects.filter(
             status__exact='authorized'
         )
@@ -31,7 +34,7 @@ class PTWDetailView(generic.DetailView):
         """
         Excludes any records that aren't published yet.
         """
-        return PTW.objects.filter(pub_date__lte=timezone.now())
+        return PTW.objects.filter(pub_date__lte=timezone.now( ))
 
 
 class IsolationActiveView(generic.ListView):

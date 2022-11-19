@@ -1,0 +1,117 @@
+,restriction,work_type_1,work_type_2,are_conflicting
+0,R1,Basket Transfers,Basket Transfers,True
+1,X,Basket Transfers,Explosive Handling,True
+2,X,Basket Transfers,Helicopter Operations,True
+3,X,Basket Transfers,Critical Ballast,True
+4,R13,Bunkering Fuel and Base Oil,Bunkering Fuel and Base Oil,True
+5,X,Bunkering Fuel and Base Oil,Explosive Handling,True
+6,R14,Bunkering Fuel and Base Oil,Helicopter Operations,True
+7,R7,Bunkering Fuel and Base Oil,Hot Work,True
+8,R10,Bunkering Fuel and Base Oil,Well Testing,True
+9,X,Bunkering Fuel and Base Oil,Riserless Drilling,True
+10,X,Bunkering Fuel and Base Oil,Critical Ballast,True
+11,X,Confined Space Entry,Well Testing,True
+12,X,Confined Space Entry,Riserless Drilling,True
+13,R30,Crane Operations,Managed Pressure Drilling,True
+14,R27,Crane Operations,Helicopter Operations,True
+15,R15,Crane Operations,Pressure Testing,True
+16,R16,Crane Operations,Well Testing,True
+17,R2,Crane Operations,Wireline,True
+18,R23,Crane Operations,ROV Operations,True
+19,X,Crane Operations,Critical Ballast,True
+20,R17,Drilling,Hot Work,True
+21,R3,Drilling,Man Riding Derrick,True
+22,R3,Drilling,Man Riding Moonpool,True
+23,X,Drilling,Critical Ballast,True
+24,R30,Managed Pressure Drilling,Crane Operations,True
+25,R17,Managed Pressure Drilling,Hot Work,True
+26,R3,Managed Pressure Drilling,Man Riding Derrick,True
+27,R3,Managed Pressure Drilling,Man Riding Moonpool,True
+28,X,Managed Pressure Drilling,Critical Ballast,True
+29,X,Explosive Handling,Basket Transfers,True
+30,X,Explosive Handling,Bunkering Fuel and Base Oil,True
+31,X,Explosive Handling,Helicopter Operations,True
+32,X,Explosive Handling,Hot Work,True
+33,R9,Explosive Handling,Man Riding Derrick,True
+34,R9,Explosive Handling,Man Riding Moonpool,True
+35,X,Explosive Handling,Radioactive Handling,True
+36,R4,Explosive Handling,Supply Boat Operations,True
+37,R4,Explosive Handling,Overside Work,True
+38,R28,Explosive Handling,ROV Operations,True
+39,X,Helicopter Operations,Basket Transfers,True
+40,R14,Helicopter Operations,Bunkering Fuel and Base Oil,True
+41,R27,Helicopter Operations,Crane Operations,True
+42,X,Helicopter Operations,Explosive Handling,True
+43,R14,Helicopter Operations,Supply Boat Operations,True
+44,X,Helicopter Operations,Critical Ballast,True
+45,R7,Hot Work,Bunkering Fuel and Base Oil,True
+46,R17,Hot Work,Drilling,True
+47,R17,Hot Work,Managed Pressure Drilling,True
+48,X,Hot Work,Explosive Handling,True
+49,R18,Hot Work,Well Testing,True
+50,R20,Hot Work,Riserless Drilling,True
+51,R3,Man Riding Derrick,Drilling,True
+52,R3,Man Riding Derrick,Managed Pressure Drilling,True
+53,R9,Man Riding Derrick,Explosive Handling,True
+54,X,Man Riding Derrick,Radioactive Handling,True
+55,R6,Man Riding Derrick,Wireline,True
+56,R3,Man Riding Derrick,Running Marine Riser,True
+57,R3,Man Riding Derrick,Riserless Drilling,True
+58,R3,Man Riding Moonpool,Drilling,True
+59,R3,Man Riding Moonpool,Managed Pressure Drilling,True
+60,R9,Man Riding Moonpool,Explosive Handling,True
+61,X,Man Riding Moonpool,Radioactive Handling,True
+62,R9,Man Riding Moonpool,Wireline,True
+63,R3,Man Riding Moonpool,Running Marine Riser,True
+64,R3,Man Riding Moonpool,Riserless Drilling,True
+65,R15,Pressure Testing,Crane Operations,True
+66,R5,Pressure Testing,Pressure Testing,True
+67,X,Radioactive Handling,Explosive Handling,True
+68,X,Radioactive Handling,Man Riding Derrick,True
+69,X,Radioactive Handling,Man Riding Moonpool,True
+70,R4,Supply Boat Operations,Explosive Handling,True
+71,R14,Supply Boat Operations,Helicopter Operations,True
+72,R10,Supply Boat Operations,Well Testing,True
+73,R29,Supply Boat Operations,Overside Work,True
+74,R24,Supply Boat Operations,ROV Operations,True
+75,R21,Supply Boat Operations,Riserless Drilling,True
+76,X,Supply Boat Operations,Critical Ballast,True
+77,R10,Well Testing,Bunkering Fuel and Base Oil,True
+78,X,Well Testing,Confined Space Entry,True
+79,R16,Well Testing,Crane Operations,True
+80,R18,Well Testing,Hot Work,True
+81,R10,Well Testing,Supply Boat Operations,True
+82,R11,Well Testing,Well Testing,True
+83,X,Well Testing,Critical Ballast,True
+84,R2,Wireline,Crane Operations,True
+85,R6,Wireline,Man Riding Derrick,True
+86,R9,Wireline,Man Riding Moonpool,True
+87,X,Wireline,Critical Ballast,True
+88,R4,Overside Work,Explosive Handling,True
+89,R29,Overside Work,Supply Boat Operations,True
+90,R8,Overside Work,Overside Work,True
+91,R3,Running Marine Riser,Man Riding Derrick,True
+92,R3,Running Marine Riser,Man Riding Moonpool,True
+93,R12,Running Marine Riser,Running Marine Riser,True
+94,X,Running Marine Riser,Critical Ballast,True
+95,R23,ROV Operations,Crane Operations,True
+96,R28,ROV Operations,Explosive Handling,True
+97,R24,ROV Operations,Supply Boat Operations,True
+98,X,Riserless Drilling,Bunkering Fuel and Base Oil,True
+99,X,Riserless Drilling,Confined Space Entry,True
+100,R20,Riserless Drilling,Hot Work,True
+101,R3,Riserless Drilling,Man Riding Derrick,True
+102,R3,Riserless Drilling,Man Riding Moonpool,True
+103,R21,Riserless Drilling,Supply Boat Operations,True
+104,X,Riserless Drilling,Critical Ballast,True
+105,X,Critical Ballast,Basket Transfers,True
+106,X,Critical Ballast,Bunkering Fuel and Base Oil,True
+107,X,Critical Ballast,Crane Operations,True
+108,X,Critical Ballast,Drilling,True
+109,X,Critical Ballast,Managed Pressure Drilling,True
+110,X,Critical Ballast,Helicopter Operations,True
+111,X,Critical Ballast,Supply Boat Operations,True
+112,X,Critical Ballast,Well Testing,True
+113,X,Critical Ballast,Wireline,True
+114,X,Critical Ballast,Running Marine Riser,True
+115,X,Critical Ballast,Riserless Drilling,True

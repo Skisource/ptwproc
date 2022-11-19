@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PTW, Inhibit, Isolation, SafeEntry, Restriction
+from .models import PTW, Inhibit, Isolation, SafeEntry, Restriction, SIMOPS
 
 
 class PTWAdmin(admin.ModelAdmin):
@@ -30,7 +30,11 @@ class InhibitAdmin(admin.ModelAdmin):
 
 
 class RestrictionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'restriction_details', 'is_self_restriction')
+    list_display = ('restriction', 'restriction_details', 'is_self_restriction')
+
+
+class SIMOPSAdmin(admin.ModelAdmin):
+    list_display = ('work_type_1', 'work_type_2', 'are_conflicting', 'restriction')
 
 
 # Register your models here.
@@ -39,3 +43,4 @@ admin.site.register(Isolation, IsolationAdmin)
 admin.site.register(Inhibit, InhibitAdmin)
 admin.site.register(SafeEntry, SafeEntryAdmin)
 admin.site.register(Restriction, RestrictionAdmin)
+admin.site.register(SIMOPS, SIMOPSAdmin)
