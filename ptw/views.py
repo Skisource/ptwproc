@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
 import datetime
-from .models import PTW, Isolation, Inhibit, SafeEntry, get_total_audits
+from .models import PTW, Isolation, Inhibit, SafeEntry, get_total_audits, SIMOPS, Restriction
 
 
 # Create your views here.
@@ -24,17 +24,6 @@ class PTWView(generic.ListView):
         return PTW.objects.filter(
             status__exact='authorized'
         )
-
-
-class PTWDetailView(generic.DetailView):
-    model = PTW
-    template_name = 'ptw/detail.html'
-
-    def get_queryset(self):
-        """
-        Excludes any records that aren't published yet.
-        """
-        return PTW.objects.filter(pub_date__lte=timezone.now( ))
 
 
 class IsolationActiveView(generic.ListView):
@@ -75,3 +64,22 @@ class InhibitView(generic.ListView):
         return Inhibit.objects.filter(
             status__exact='authorized'
         )
+
+
+def permit(request, ptw_id):
+    this_permit = get_object_or_404(PTW, pk=ptw_id)
+    active_ptws = PTW.objects.filter(status__exact='authorized')
+    simops = SIMOPS.objects.all()
+    restrictions = []
+    for active in active_ptws:
+        if not simops.filter(work_type_1__exact=this_permit.work_type,work_type_2__exact=active.work_type):
+            restrictions.append(f'{this_permit.id} does not conflict with {active.id}')
+        else:
+            restrictions.append(f'{this_permit.id} is restricted by {active.id}')
+
+    context = {'this_permit': this_permit,
+               'active_ptws': active_ptws,
+               'simops': simops,
+               'restrictions': restrictions,
+               }
+    return render(request, 'ptw/detail.html', context)

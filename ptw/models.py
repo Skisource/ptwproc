@@ -8,17 +8,7 @@ from import_export import resources
 # class Equipment(models.Model):
 #     equipment_description = models.CharField(max_length=64, default='TBC')
 #     equipment_maximo_tag = models.CharField(max_length=64, primary_key=True)
-class Restriction(models.Model):
-    restriction = models.CharField(primary_key=True, max_length=3)
-    restriction_details = models.CharField(max_length=200)
-    is_self_restriction = models.BooleanField()
-
-    def __unicode__(self):
-        return str(self.restriction)
-
-
-class SIMOPS(models.Model):
-    work_list = [
+work_list = [
         ('Basket Transfers', 'Basket Transfers'),
         ('Bunkering Fuel and Base Oil', 'Bunkering Fuel and Base Oil'),
         ('Confined Space Entry', 'Confined Space Entry'),
@@ -41,17 +31,32 @@ class SIMOPS(models.Model):
         ('Riserless Drilling', 'Riserless Drilling'),
         ('Critical Ballast', 'Critical Ballast'),
     ]
+
+
+class Restriction(models.Model):
+    restriction = models.CharField(primary_key=True, max_length=3)
+    restriction_details = models.CharField(max_length=200)
+    is_self_restriction = models.BooleanField()
+
+    def __unicode__(self):
+        return str(self.restriction)
+
+
+class SIMOPS(models.Model):
     work_type_1 = models.CharField(max_length=64, choices=work_list, blank=True)
     work_type_2 = models.CharField(max_length=64, choices=work_list, blank=True)
     are_conflicting = models.BooleanField()
     restriction = models.ForeignKey(Restriction, on_delete=models.PROTECT, db_column='restriction')
 
+    def __str__(self):
+        return f'{self.work_type_1} and {self.work_type_2} are resolved in {self.restriction}'
 
 class PTW(models.Model):
     prefix = models.CharField(max_length=5, choices=[
         ('PTW', 'PTW'),
         ('HVPTW', 'HVPTW'),
         ('HVSFT', 'HVSFT'),
+        ('Event', 'Event'),
     ], default='PTW')
     id = models.IntegerField(primary_key=True)
     status = models.CharField(max_length=10, choices=[
@@ -66,9 +71,7 @@ class PTW(models.Model):
     closed_at = models.DateTimeField(default=timezone.now)
     planned_work_at = models.DateTimeField(default=timezone.now)
     work_description = models.CharField(max_length=64, default='TBC')
-    # TODO: work types as per SIMOPS restriction matrix
-    # work_type = models.ForeignKey(SIMOPS, on_delete=models.PROTECT, db_column='work_type_1')
-    work_type = models.CharField(max_length=64, blank=True)
+    work_type = models.CharField(max_length=64, choices=work_list, blank=True)
     work_location = models.CharField(max_length=64, default='TBC')
     performing_authority = models.CharField(max_length=64, blank=True)
     permit_audit = models.IntegerField(default=0)
@@ -79,23 +82,6 @@ class PTW(models.Model):
 
     def check_conflicts(self):
         pass
-
-
-#     TODO: conflict check function as per SIMOPS restriction matrix
-
-#     As follows:
-# id::charfield
-# operation_activity::charfield
-# paired_operation_activity::charfield
-# conflict_type::charfield или conflict_type_id (foreign key в таблице, где список конфликтов)
-# типа сделать таблицу conflict_type:
-# id::charfield
-# conflict_type::charfield
-# description::charfield
-#
-# а, у тебя даже есть название для типа конфликта
-# restriction
-# restriction_type, restriction_id
 
 
 class Isolation(models.Model):

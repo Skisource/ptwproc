@@ -1,19 +1,71 @@
-{#<h1>{{ question.question_text }}</h1>#}
-{#<ul>#}
-{#{% for choice in question.choice_set.all %}#}
-{#    <li>{{ choice.choice_text }}</li>#}
-{#{% endfor %}#}
-{#</ul>#}
+{% extends 'ptw/nav.html' %}
 
-<form action="{% url 'ptw:index' ptw.id %}" method="post">
-{% csrf_token %}
-<fieldset>
-    <legend><h1>{{ ptw.prefix }}</h1></legend>
-    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-    {% for choice in question.choice_set.all %}
-        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+{% block content %}
+
+<div class="container-lg">
+<h2 class="text-success">{{ this_permit.prefix }} {{ this_permit.id }} Details</h2>
+    <table class="table-responsive">
+        <thead>
+            <tr>
+                <th scope="col">Field</th>
+                <th scope="col">Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">ID & Status:</th>
+                <td>{{ this_permit.prefix }}{{ this_permit.id }} is currently {{ this_permit.status }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Performed by:</th>
+                <td>{{ this_permit.performing_authority }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Work description:</th>
+                <td>{{ this_permit.work_description }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Work type:</th>
+                <td>{{ this_permit.work_type }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Work location:</th>
+                <td>{{ this_permit.work_location }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Created at:</th>
+                <td>{{ this_permit.created_at }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Authorized at:</th>
+                <td>{{ this_permit.authorized_at }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Closed at:</th>
+                <td>{{ this_permit.authorized_at }}</td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+
+<div class="container-lg">
+<h3>Possible restrictions:</h3>
+{% if restrictions %}
+    {% for item in restrictions %}
+        <p>{{ item }}</p>
     {% endfor %}
-</fieldset>
-<input type="submit" value="Vote">
-</form>
+{% endif %}
+
+</div>
+{% endblock %}
+
+{#def permit(request, ptw_id):#}
+{#    this_permit = get_object_or_404(PTW, pk=ptw_id)#}
+{#    active_ptws = PTW.objects.filter(status__exact='authorized')#}
+{#    simops = SIMOPS.objects.all()#}
+{#    context = {'this_permit': this_permit,#}
+{#               'active_ptws': active_ptws,#}
+{#               'simops': simops,#}
+{#               }#}
+{#    return render(request, 'ptw/detail.html', context)#}
