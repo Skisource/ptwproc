@@ -30,6 +30,8 @@ work_list = [
         ('ROV Operations', 'ROV Operations'),
         ('Riserless Drilling', 'Riserless Drilling'),
         ('Critical Ballast', 'Critical Ballast'),
+        ('Methanol', 'Methanol'),
+        ('Safety System', 'Safety System'),
     ]
 
 
@@ -38,8 +40,8 @@ class Restriction(models.Model):
     restriction_details = models.CharField(max_length=200)
     is_self_restriction = models.BooleanField()
 
-    def __unicode__(self):
-        return str(self.restriction)
+    def __str__(self):
+        return f'{self.restriction}'
 
 
 class SIMOPS(models.Model):
@@ -49,7 +51,8 @@ class SIMOPS(models.Model):
     restriction = models.ForeignKey(Restriction, on_delete=models.PROTECT, db_column='restriction')
 
     def __str__(self):
-        return f'{self.work_type_1} and {self.work_type_2} are resolved in {self.restriction}'
+        return f'{self.work_type_1} vs {self.work_type_2} is {self.restriction}'
+
 
 class PTW(models.Model):
     prefix = models.CharField(max_length=5, choices=[

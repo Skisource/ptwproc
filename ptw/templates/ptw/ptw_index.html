@@ -3,7 +3,7 @@
 
 <h2>PTW Register</h2>
 <div class="table-responsive">
-<table class="table">
+<table class="table table-striped table-hover">
 <thead>
       <tr>
           <th scope="col">Prefix</th>
@@ -19,7 +19,7 @@
 {% if latest_active_list %}
 
             {% for ptw in latest_active_list %}
-                <tbody>
+                <tbody class="table-group-divider">
                     <tr>
                         <th scope="row">{{ ptw.prefix }}</th>
                         <td><a href="{% url 'ptw:detail' ptw.id %}">{{ ptw.id }}</a></td>

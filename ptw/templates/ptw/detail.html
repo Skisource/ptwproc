@@ -1,62 +1,83 @@
 {% extends 'ptw/nav.html' %}
 
 {% block content %}
-
-<div class="container-lg">
-<h2 class="text-success">{{ this_permit.prefix }} {{ this_permit.id }} Details</h2>
-    <table class="table-responsive">
-        <thead>
-            <tr>
-                <th scope="col">Field</th>
-                <th scope="col">Description</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">ID & Status:</th>
-                <td>{{ this_permit.prefix }}{{ this_permit.id }} is currently {{ this_permit.status }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Performed by:</th>
-                <td>{{ this_permit.performing_authority }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Work description:</th>
-                <td>{{ this_permit.work_description }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Work type:</th>
-                <td>{{ this_permit.work_type }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Work location:</th>
-                <td>{{ this_permit.work_location }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Created at:</th>
-                <td>{{ this_permit.created_at }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Authorized at:</th>
-                <td>{{ this_permit.authorized_at }}</td>
-            </tr>
-            <tr>
-                <th scope="row">Closed at:</th>
-                <td>{{ this_permit.authorized_at }}</td>
-            </tr>
-        </tbody>
-
-    </table>
+<div class="col-md p-4">
+            <h2 class="text-success">{{ this_permit.prefix }} {{ this_permit.id }} Details</h2>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Field</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        <tr>
+                            <th scope="row">ID & Status:</th>
+                            <td>{{ this_permit.prefix }}{{ this_permit.id }} is currently {{ this_permit.status }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Performed by:</th>
+                            <td>{{ this_permit.performing_authority }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Work description:</th>
+                            <td>{{ this_permit.work_description }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Work type:</th>
+                            <td>{{ this_permit.work_type }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Work location:</th>
+                            <td>{{ this_permit.work_location }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Created at:</th>
+                            <td>{{ this_permit.created_at }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Authorized at:</th>
+                            <td>{{ this_permit.authorized_at }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Closed at:</th>
+                            <td>{{ this_permit.authorized_at }}</td>
+                        </tr>
+                    </tbody>
+                </table>
 </div>
+<h3 class="fst-italic text-success p-4">Checks as per SimOps matrix L4-DOC-ICE-7576:</h3>
+<div class="container">
+    <div class="row justify-content-start gy-5 text-truncate">
 
-<div class="container-lg">
-<h3>Possible restrictions:</h3>
-{% if restrictions %}
-    {% for item in restrictions %}
-        <p>{{ item }}</p>
-    {% endfor %}
-{% endif %}
+        <div class="col-sm bg-secondary bg-opacity-25 rounded p-4">
+            <h2>Active Permits:</h2>
+            {% if active_ptws %}
+                {% for permit in active_ptws %}
+                    <p>{{ permit.prefix }}{{ permit.id }} {{ permit.work_description }} by {{ permit.performing_authority }} </p>
 
+                {% endfor %}
+            {% endif %}
+        </div>
+
+
+        <div class="col-sm bg-light rounded p-4">
+            <h2>SIMOPS restrictions:</h2>
+                {% if restrictions %}
+                    {% for item in restrictions %}
+                         <p>{{ item }}</p>
+                    {% endfor %}
+                {% endif %}
+        </div>
+        <div class="col-sm bg-info rounded p-4">
+        <h2>Safety measures:</h2>
+        {% if descriptions %}
+             {% for desc in descriptions %}
+                 <p class="text fst-italic">{{ desc.restriction }} = {{ desc.restriction_details }}</p>
+             {% endfor %}
+        {% endif %}
+        </div>
+</div>
 </div>
 {% endblock %}
 

@@ -6,7 +6,7 @@
 <h2>Isolation Register</h2>
 
 <div class="table-responsive">
-<table class="table">
+<table class="table table-striped table-hover">
 <thead>
       <tr>
           <th scope="col">Number</th>
@@ -21,7 +21,7 @@
 {% if active_isolations %}
 
             {% for isolation in active_isolations %}
-                <tbody>
+                <tbody class="table-group-divider">
                     <tr>
                         <th scope="row">{{ isolation.id }}</th>
                         <td>{{ isolation.created_at }}</td>
