@@ -54,39 +54,6 @@ class SIMOPS(models.Model):
         return f'{self.work_type_1} vs {self.work_type_2} is {self.restriction}'
 
 
-class PTW(models.Model):
-    prefix = models.CharField(max_length=5, choices=[
-        ('PTW', 'PTW'),
-        ('HVPTW', 'HVPTW'),
-        ('HVSFT', 'HVSFT'),
-        ('Event', 'Event'),
-    ], default='PTW')
-    id = models.IntegerField(primary_key=True)
-    status = models.CharField(max_length=10, choices=[
-        ('created', 'created'),
-        ('authorized', 'authorized'),
-        ('suspended', 'suspended'),
-        ('closed', 'closed'),
-        ('cancelled', 'cancelled')]
-                              )
-    created_at = models.DateTimeField(default=timezone.now)
-    authorized_at = models.DateTimeField(default=timezone.now)
-    closed_at = models.DateTimeField(default=timezone.now)
-    planned_work_at = models.DateTimeField(default=timezone.now)
-    work_description = models.CharField(max_length=64, default='TBC')
-    work_type = models.CharField(max_length=64, choices=work_list, blank=True)
-    work_location = models.CharField(max_length=64, default='TBC')
-    performing_authority = models.CharField(max_length=64, blank=True)
-    permit_audit = models.IntegerField(default=0)
-
-    def __str__(self):
-        return f'PTW_{self.id}: {self.work_type} - {self.work_description} at' \
-               f' {self.work_location} by {self.performing_authority} on {self.planned_work_at}'
-
-    def check_conflicts(self):
-        pass
-
-
 class Isolation(models.Model):
     id = models.IntegerField(primary_key=True)
     status = models.CharField(max_length=10, choices=[
@@ -123,6 +90,8 @@ class SafeEntry(models.Model):
     space_description = models.CharField(max_length=24, default='TBC')
     space_maximo_tag = models.CharField(max_length=24, default='TBC')
 
+    def __str__(self):
+        return str()
 
 class Inhibit(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -146,6 +115,42 @@ class Inhibit(models.Model):
     location = models.CharField(max_length=60, default='TBC')
     work_description = models.CharField(max_length=60, default='TBC')
     related_tags = models.CharField(max_length=60, default='TBC')
+
+
+class PTW(models.Model):
+    prefix = models.CharField(max_length=5, choices=[
+        ('PTW', 'PTW'),
+        ('HVPTW', 'HVPTW'),
+        ('HVSFT', 'HVSFT'),
+        ('Event', 'Event'),
+    ], default='PTW')
+    id = models.IntegerField(primary_key=True)
+    status = models.CharField(max_length=10, choices=[
+        ('created', 'created'),
+        ('authorized', 'authorized'),
+        ('suspended', 'suspended'),
+        ('closed', 'closed'),
+        ('cancelled', 'cancelled')]
+                              )
+    created_at = models.DateTimeField(default=timezone.now)
+    authorized_at = models.DateTimeField(default=timezone.now)
+    closed_at = models.DateTimeField(default=timezone.now)
+    planned_work_at = models.DateTimeField(default=timezone.now)
+    work_description = models.CharField(max_length=64, default='TBC')
+    work_type = models.CharField(max_length=64, choices=work_list, blank=True)
+    work_location = models.CharField(max_length=64, default='TBC')
+    performing_authority = models.CharField(max_length=64, blank=True)
+    permit_audit = models.IntegerField(default=0)
+    ref_isolation = models.ForeignKey(Isolation, on_delete=models.PROTECT, blank=True, null=True)
+    ref_safe_entry = models.ForeignKey(SafeEntry, on_delete=models.PROTECT, blank=True, null=True)
+    ref_inhibit = models.ForeignKey(Inhibit, on_delete=models.PROTECT, blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.prefix} {self.id}: {self.work_type} - {self.work_description} at' \
+               f' {self.work_location} by {self.performing_authority} on {self.planned_work_at}'
+
+
+
 
 
 def get_total_audits(timedelta):

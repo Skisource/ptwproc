@@ -5,6 +5,8 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .models import PTW, Isolation, Inhibit, SafeEntry, get_total_audits, SIMOPS, Restriction
 
+# TODO: Add PTW links to IC and SEC and RA
+
 
 # Create your views here.
 class IndexView(generic.TemplateView):
@@ -17,7 +19,7 @@ class PTWView(generic.ListView):
     context_object_name = 'latest_active_list'
 
     def get_queryset(self):
-        """Return authorized records"""
+        """Return records"""
         return PTW.objects.filter(
             Q(status__exact='authorized') | Q(status__exact='created') | Q(status__exact='suspended')
         )
@@ -29,18 +31,18 @@ class IsolationActiveView(generic.ListView):
 
     def get_queryset(self):
         return Isolation.objects.filter(
-            status__exact='authorized'
+            Q(status__exact='authorized') | Q(status__exact='created') | Q(status__exact='long term')
         )
 
 
-class IsolationLongtermView(generic.ListView):
-    template_name = 'ptw/longterm_index.html'
-    context_object_name = 'longterm_isolations'
-
-    def get_queryset(self):
-        return Isolation.objects.filter(
-            status__exact='long term'
-        )
+# class IsolationLongtermView(generic.ListView):
+#     template_name = 'ptw/longterm_index.html'
+#     context_object_name = 'longterm_isolations'
+#
+#     def get_queryset(self):
+#         return Isolation.objects.filter(
+#             status__exact='long term'
+#         )
 
 
 class SafeEntryView(generic.ListView):
