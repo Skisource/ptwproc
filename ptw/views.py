@@ -5,8 +5,6 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .models import PTW, Isolation, Inhibit, SafeEntry, get_total_audits, SIMOPS, Restriction
 
-# TODO: Add PTW links to IC and SEC and RA
-
 
 # Create your views here.
 class IndexView(generic.TemplateView):
@@ -35,23 +33,13 @@ class IsolationActiveView(generic.ListView):
         )
 
 
-# class IsolationLongtermView(generic.ListView):
-#     template_name = 'ptw/longterm_index.html'
-#     context_object_name = 'longterm_isolations'
-#
-#     def get_queryset(self):
-#         return Isolation.objects.filter(
-#             status__exact='long term'
-#         )
-
-
 class SafeEntryView(generic.ListView):
     template_name = 'ptw/safeentry_index.html'
     context_object_name = 'safeentry'
 
     def get_queryset(self):
         return SafeEntry.objects.filter(
-            status__exact='authorized'
+            Q(status__exact='authorized') | Q(status__exact='created')
         )
 
 
@@ -61,14 +49,14 @@ class InhibitView(generic.ListView):
 
     def get_queryset(self):
         return Inhibit.objects.filter(
-            status__exact='authorized'
+            Q(status__exact='authorized') | Q(status__exact='created')
         )
 
 
 def permit(request, ptw_id):
     this_permit = get_object_or_404(PTW, pk=ptw_id)
     active_ptws = PTW.objects.filter(status__exact='authorized')
-    simops = SIMOPS.objects.all( )
+    simops = SIMOPS.objects.all()
     restrictions = []
     descriptions = []
     for active in active_ptws:
@@ -79,7 +67,7 @@ def permit(request, ptw_id):
             descriptions.append(desc)
         except ObjectDoesNotExist:
             no_rest = Restriction.objects.get(restriction__exact='R0')
-            restrictions.append(f'{active.prefix} {active.id} requires no additional measures for {this_permit.id}')
+            restrictions.append(f'no additional measures required for {this_permit.id}')
             descriptions.append(no_rest)
 
     context = {'this_permit': this_permit,

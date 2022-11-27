@@ -26,7 +26,10 @@
                         <td>{{ item.performing_authority }}</td>
                         <td>{{ item.space_description }}</td>
                         <td>{{ item.space_maximo_tag }}</td>
-                        <td>{{ item.status }}</td>
+                        <td class="{% if item.status == "authorized" %}{{ 'text-bg-success' }}
+                                    {% elif item.status == "created" %}{{ 'text-bg-info' }}
+                                    {% else %}{{ 'text-bg-warning' }}
+                                    {% endif %}">{{ item.status }}</td>
                     </tr>
                 </tbody>
             {% endfor %}

@@ -44,24 +44,27 @@
                             <td>{{ this_permit.authorized_at }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">Referece IC</th>
+                            <th scope="row">Reference IC</th>
                             <td>{{ this_permit.ref_isolation }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">Referece SEC</th>
+                            <th scope="row">Reference SEC</th>
                             <td>{{ this_permit.ref_safe_entry }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">Referece Inhibit</th>
+                            <th scope="row">Reference Inhibit</th>
                             <td>{{ this_permit.ref_inhibit }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Audits performed</th>
+                            <td>{{ this_permit.permit_audit }}</td>
                         </tr>
                     </tbody>
                 </table>
 </div>
-<h3 class="fst-italic text-success p-4">Checks as per SimOps matrix L4-DOC-ICE-7576:</h3>
+<h3 class="fst-italic text-success p-4">PTW conflicts and safety measures:</h3>
 <div class="container">
     <div class="row justify-content-start gy-5 text-truncate">
-
         <div class="col-sm bg-secondary bg-opacity-25 rounded p-4">
             <h2>Active Permits:</h2>
             {% if active_ptws %}
@@ -71,10 +74,8 @@
                 {% endfor %}
             {% endif %}
         </div>
-
-
         <div class="col-sm bg-light rounded p-4">
-            <h2>SIMOPS restrictions:</h2>
+            <h2>SIMOPS matrix:</h2>
                 {% if restrictions %}
                     {% for item in restrictions %}
                          <p>{{ item }}</p>

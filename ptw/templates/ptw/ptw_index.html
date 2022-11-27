@@ -28,7 +28,10 @@
                         <td>{{ ptw.work_type }}</td>
                         <td>{{ ptw.work_location }}</td>
                         <td>{{ ptw.work_description }}</td>
-                        <td>{{ ptw.status }}</td>
+                        <td class="{% if ptw.status == "authorized" %}{{ 'text-bg-success' }}
+                                    {% elif ptw.status == "created" %}{{ 'text-bg-info' }}
+                                    {% else %}{{ 'text-bg-warning' }}
+                                    {% endif %}">{{ ptw.status }}</td>
                     </tr>
                 </tbody>
             {% endfor %}

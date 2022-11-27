@@ -31,7 +31,10 @@
                         <td>{{ item.system_maximo_tag }}</td>
                         <td>{{ item.ias_tag }}</td>
                         <td>{{ item.block_or_suppress }}</td>
-                        <td>{{ item.status }}</td>
+                        <td class="{% if item.status == "authorized" %}{{ 'text-bg-success' }}
+                                    {% elif item.status == "created" %}{{ 'text-bg-info' }}
+                                    {% else %}{{ 'text-bg-warning' }}
+                                    {% endif %}">{{ item.status }}</td>
                     </tr>
                 </tbody>
             {% endfor %}
