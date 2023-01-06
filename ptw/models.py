@@ -74,6 +74,8 @@ class Isolation(models.Model):
     equipment_description = models.CharField(max_length=24, default='TBC')
     equipment_maximo_tag = models.CharField(max_length=24, default='TBC')
 
+    def __str__(self):
+        return str(self.id)
 
 class SafeEntry(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -91,7 +93,8 @@ class SafeEntry(models.Model):
     space_maximo_tag = models.CharField(max_length=24, default='TBC')
 
     def __str__(self):
-        return str()
+        return str(self.id)
+
 
 class Inhibit(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -116,6 +119,8 @@ class Inhibit(models.Model):
     work_description = models.CharField(max_length=60, default='TBC')
     related_tags = models.CharField(max_length=60, default='TBC')
 
+    def __str__(self):
+        return str(self.id)
 
 class PTW(models.Model):
     prefix = models.CharField(max_length=5, choices=[
