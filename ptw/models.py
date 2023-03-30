@@ -62,7 +62,7 @@ class Isolation(models.Model):
         ('long term', 'long term'),
         ('closed', 'closed'),
         ('cancelled', 'cancelled')], default='created')
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now=True)
     isolation_type = models.CharField(max_length=24, choices=[
         ('electrical', 'electrical'),
         ('mechanical', 'mechanical'),
@@ -77,6 +77,7 @@ class Isolation(models.Model):
     def __str__(self):
         return str(self.id)
 
+
 class SafeEntry(models.Model):
     id = models.IntegerField(primary_key=True)
     status = models.CharField(max_length=10, choices=[
@@ -85,7 +86,7 @@ class SafeEntry(models.Model):
         ('closed', 'closed'),
         ('cancelled', 'cancelled')
     ], default='created')
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now=True)
     performing_authority = models.CharField(max_length=24, default='TBC')
     authorized_at = models.DateTimeField(default=timezone.now)
     closed_at = models.DateTimeField(default=timezone.now)
@@ -104,7 +105,7 @@ class Inhibit(models.Model):
         ('closed', 'closed'),
         ('cancelled', 'cancelled')
     ], default='created')
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now=True)
     performing_authority = models.CharField(max_length=24, default='TBC')
     authorized_at = models.DateTimeField(default=timezone.now)
     closed_at = models.DateTimeField(default=timezone.now)
@@ -137,7 +138,7 @@ class PTW(models.Model):
         ('closed', 'closed'),
         ('cancelled', 'cancelled')]
                               )
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now=True)
     authorized_at = models.DateTimeField(default=timezone.now)
     closed_at = models.DateTimeField(default=timezone.now)
     planned_work_at = models.DateTimeField(default=timezone.now)
@@ -153,9 +154,6 @@ class PTW(models.Model):
     def __str__(self):
         return f'{self.prefix} {self.id}: {self.work_type} - {self.work_description} at' \
                f' {self.work_location} by {self.performing_authority} on {self.planned_work_at}'
-
-
-
 
 
 def get_total_audits(timedelta):
