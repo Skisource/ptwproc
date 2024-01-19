@@ -1,0 +1,39 @@
+{% extends 'ptw/nav.html' %}
+
+
+{% block content %}
+
+<h2>Drill Register</h2>
+
+<div class="table-responsive">
+<table class="table table-striped table-hover">
+<thead>
+      <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Type</th>
+          <th scope="col">Sub-type</th>
+          <th scope="col">Last held</th>
+          <th scope="col">Next due</th>
+          <th scope="col">Description</th>
+      </tr>
+</thead>
+{% if drill %}
+    {% for item in drill %}
+        <tbody class="table-group-divider">
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.sub_type }}</td>
+            <td>{{ item.date }}</td>
+            <td>{{ item.date_next }}</td>
+            <td>{{ item.description }}</td>
+        </tr>
+        </tbody>
+    {% endfor %}
+{% else %}
+    <p>No drills have been registered.</p>
+{% endif %}
+</table>
+</div>
+
+{% endblock %}

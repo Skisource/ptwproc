@@ -12,4 +12,5 @@ urlpatterns = [
     path('inhibit/', views.InhibitView.as_view(), name='inhibit'),
     # ex: /ptw/5
     path('ptw/<int:ptw_id>/', views.permit, name='detail'),
+    path('drills/', views.DrillsView.as_view(), name='drills'),
 ]

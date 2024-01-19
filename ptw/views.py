@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import PTW, Isolation, Inhibit, SafeEntry, get_total_audits, SIMOPS, Restriction
+from .models import PTW, Isolation, Inhibit, SafeEntry, get_total_audits, SIMOPS, Restriction, Drill
 
 
 # Create your views here.
@@ -51,6 +51,13 @@ class InhibitView(generic.ListView):
         return Inhibit.objects.filter(
             Q(status__exact='authorized') | Q(status__exact='created')
         )
+
+class DrillsView(generic.ListView):
+    template_name = 'ptw/drill_register.html'
+    context_object_name = 'drill'
+
+    def get_queryset(self):
+        return Drill.objects.all()
 
 
 def permit(request, ptw_id):
