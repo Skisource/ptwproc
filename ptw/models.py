@@ -3,7 +3,7 @@ import tablib
 from django.db import models
 from django.utils import timezone
 from import_export import resources
-from list_of_things import work_list, drill_types, drill_subtype
+from .list_of_things import work_list, drill_types, drill_subtype
 
 
 class Restriction(models.Model):

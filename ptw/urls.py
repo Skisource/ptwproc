@@ -13,4 +13,5 @@ urlpatterns = [
     # ex: /ptw/5
     path('ptw/<int:ptw_id>/', views.permit, name='detail'),
     path('drills/', views.DrillsView.as_view(), name='drills'),
+    path('drills/<int:drill_id>/', views.drill, name='drill'),
 ]

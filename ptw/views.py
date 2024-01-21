@@ -84,3 +84,17 @@ def permit(request, ptw_id):
                'descriptions': descriptions,
                }
     return render(request, 'ptw/detail.html', context)
+
+
+def drill(request, drill_id):
+    this_drill = get_object_or_404(Drill, pk=drill_id)
+    context = {'this_drill': this_drill,
+               'type': this_drill.type,
+               'sub_type': this_drill.sub_type,
+               'date': this_drill.date,
+               'date_next': this_drill.date_next,
+               'description': this_drill.description,
+               'long_description': this_drill.long_description,
+               'personnel': this_drill.personnel,
+               }
+    return render(request, 'ptw/drill_report.html', context)

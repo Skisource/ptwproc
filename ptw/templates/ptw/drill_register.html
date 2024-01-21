@@ -21,7 +21,7 @@
     {% for item in drill %}
         <tbody class="table-group-divider">
         <tr>
-            <td>{{ item.id }}</td>
+            <td><a href="{% url 'ptw:drill' item.id %}">{{ item.id }}</a></td>
             <td>{{ item.type }}</td>
             <td>{{ item.sub_type }}</td>
             <td>{{ item.date }}</td>
