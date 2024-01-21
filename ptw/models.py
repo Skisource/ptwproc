@@ -3,36 +3,7 @@ import tablib
 from django.db import models
 from django.utils import timezone
 from import_export import resources
-
-# TODO: Equipment class
-# class Equipment(models.Model):
-#     equipment_description = models.CharField(max_length=64, default='TBC')
-#     equipment_maximo_tag = models.CharField(max_length=64, primary_key=True)
-work_list = [
-        ('Basket Transfers', 'Basket Transfers'),
-        ('Bunkering Fuel and Base Oil', 'Bunkering Fuel and Base Oil'),
-        ('Confined Space Entry', 'Confined Space Entry'),
-        ('Crane Operations', 'Crane Operations'),
-        ('Drilling', 'Drilling'),
-        ('Managed Pressure Drilling', 'Managed Pressure Drilling'),
-        ('Explosive Handling', 'Explosive Handling'),
-        ('Helicopter Operations', 'Helicopter Operations'),
-        ('Hot Work', 'Hot Work'),
-        ('Man Riding Derrick', 'Man Riding Derrick'),
-        ('Man Riding Moonpool', 'Man Riding Moonpool'),
-        ('Pressure Testing', 'Pressure Testing'),
-        ('Radioactive Handling', 'Radioactive Handling'),
-        ('Supply Boat Operations', 'Supply Boat Operations'),
-        ('Well Testing', 'Well Testing'),
-        ('Wireline', 'Wireline'),
-        ('Overside Work', 'Overside Work'),
-        ('Running Marine Riser', 'Running Marine Riser'),
-        ('ROV Operations', 'ROV Operations'),
-        ('Riserless Drilling', 'Riserless Drilling'),
-        ('Critical Ballast', 'Critical Ballast'),
-        ('Methanol', 'Methanol'),
-        ('Safety System', 'Safety System'),
-    ]
+from list_of_things import work_list, drill_types, drill_subtype
 
 
 class Restriction(models.Model):
@@ -156,61 +127,25 @@ class PTW(models.Model):
                f' {self.work_location} by {self.performing_authority} on {self.planned_work_at}'
 
 
-drill_types = [
-    ('Abandon', 'Abandon'),
-    ('Supervisor Missing', 'Supervisor Missing'),
-    ('Lifeboat Launch', 'Lifeboat Launch'),
-    ('Fire', 'Fire'),
-    ('Liferaft', 'Liferaft'),
-    ('Liferaft Davit & Inflation', 'Liferaft Davit & Inflation'),
-    ('Alternate ECC', 'Alternate ECC'),
-    ('Line Throwing', 'Line Throwing'),
-    ('Ballast Control', 'Ballast Control'),
-    ('Collision', 'Collision'),
-    ('Heavy WX', 'Heavy WX'),
-    ('Structural', 'Structural'),
-    ('Grounding', 'Grounding'),
-    ('DP Drill', 'DP Drill'),
-    ('Blackout', 'Blackout'),
-    ('Emergency Steering', 'Emergency Steering'),
-    ('Gas H2S', 'Gas H2S'),
-    ('Helideck Emergency', 'Helideck Emergency'),
-    ('Rescue at Height', 'Rescue at Height'),
-    ('MOB', 'MOB'),
-    ('SOPEP', 'SOPEP'),
-    ('Confined Space', 'Confined Space'),
-    ('First Aid', 'First Aid'),
-    ('ISPS', 'ISPS'),
-    ('Well Control', 'Well Control'),
-]
-
-drill_sub = [
-    ('Internal', 'Internal'),
-    ('External', 'External'),
-    ('Machinery', 'Machinery'),
-    ('Accommodation', 'Accommodation'),
-    ('Galley', 'Galley'),
-    ('None', 'None'),
-]
-
 class DrillType(models.Model):
     type = models.CharField(max_length=32, choices=drill_types)
     frequency = models.IntegerField(help_text="Drill frequency in days")
     def __str__(self):
         return self.type
 
+
 class Drill(models.Model):
     id = models.AutoField(primary_key=True)
     type = models.ForeignKey(DrillType, on_delete=models.CASCADE)
-    sub_type = models.CharField(max_length=32, choices=drill_sub, null=True, default=None)
+    sub_type = models.CharField(max_length=32, choices=drill_subtype, null=True, default=None)
     date = models.DateTimeField(default=timezone.now)
     date_next = models.DateTimeField(default=timezone.now)
     description = models.CharField(max_length=128, default='Drill description:')
     long_description = models.CharField(max_length=1024, default='Long description:')
     personnel = models.CharField(max_length=1024, default='Personnel:')
-
     def __str__(self):
-        return str(self.id)
+        return self.description
+
 
 def get_total_audits(timedelta):
     # gets total sum of permit audits for given number of days back
