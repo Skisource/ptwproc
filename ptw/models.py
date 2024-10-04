@@ -6,6 +6,15 @@ from import_export import resources
 from .list_of_things import work_list, drill_types, drill_subtype
 
 
+class Location(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    x = models.IntegerField()  # or models.FloatField() if you need decimal precision
+    y = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.name}'
+
+
 class Restriction(models.Model):
     restriction = models.CharField(primary_key=True, max_length=3)
     restriction_details = models.CharField(max_length=200)
@@ -115,7 +124,7 @@ class PTW(models.Model):
     planned_work_at = models.DateTimeField(default=timezone.now)
     work_description = models.CharField(max_length=64, default='TBC')
     work_type = models.CharField(max_length=64, choices=work_list, blank=True)
-    work_location = models.CharField(max_length=64, default='TBC')
+    work_location = models.ForeignKey(Location, on_delete=models.PROTECT)
     performing_authority = models.CharField(max_length=64, blank=True)
     permit_audit = models.IntegerField(default=0)
     ref_isolation = models.ForeignKey(Isolation, on_delete=models.PROTECT, blank=True, null=True)

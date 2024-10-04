@@ -1,5 +1,7 @@
+from symbol import pass_stmt
+
 from django.contrib import admin
-from .models import PTW, Inhibit, Isolation, SafeEntry, Restriction, SIMOPS, DrillType, Drill
+from .models import PTW, Location, Inhibit, Isolation, SafeEntry, Restriction, SIMOPS, DrillType, Drill
 
 
 class PTWAdmin(admin.ModelAdmin):
@@ -7,6 +9,12 @@ class PTWAdmin(admin.ModelAdmin):
                     'work_type', 'work_location', 'status', 'permit_audit')
     list_filter = ['created_at']
     search_fields = ['id', 'status', 'work_type', 'work_location']
+
+
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ('name', 'x', 'y')
+    list_filter = ['name']
+    search_fields = ['name']
 
 
 class IsolationAdmin(admin.ModelAdmin):
@@ -48,6 +56,7 @@ class DrillAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(PTW, PTWAdmin)
+admin.site.register(Location, LocationAdmin)
 admin.site.register(Isolation, IsolationAdmin)
 admin.site.register(Inhibit, InhibitAdmin)
 admin.site.register(SafeEntry, SafeEntryAdmin)

@@ -1,0 +1,51 @@
+<!-- templates/work_locations.html -->
+{% extends 'ptw/nav.html' %}
+
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="EN" >
+<head>
+    <title>Work Locations</title>
+    <link rel="stylesheet" href="{% static 'ptw/css/styles.css' %}">
+</head>
+<body>
+    <div id="scheme-container">
+        <img src="{% static 'ptw/images/scheme.png' %}" id="scheme" alt="Work Scheme">
+        <div id="markers"></div>
+    </div>
+
+    <script>
+        // Pass the locations data to JavaScript
+        const locations = {{ locations|safe }};
+        const scheme = document.getElementById('scheme');
+        const markersContainer = document.getElementById('markers');
+
+        scheme.onload = function() {
+            const schemeWidth = scheme.naturalWidth;
+            const schemeHeight = scheme.naturalHeight;
+            const displayedWidth = scheme.width;
+            const displayedHeight = scheme.height;
+
+            const widthScale = displayedWidth / schemeWidth;
+            const heightScale = displayedHeight / schemeHeight;
+
+            locations.forEach(location => {
+                const marker = document.createElement('div');
+                marker.className = 'marker';
+                marker.style.left = (location.x * widthScale) + 'px';
+                marker.style.top = (location.y * heightScale) + 'px';
+                marker.title = `${location.name} (Permit ID: ${location.permit_id})`;
+                markersContainer.appendChild(marker);
+            });
+        };
+
+        // Handle window resize to reposition markers
+        window.addEventListener('resize', function() {
+            markersContainer.innerHTML = '';
+            scheme.onload();
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

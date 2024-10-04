@@ -23,6 +23,29 @@ class PTWView(generic.ListView):
         )
 
 
+def board(request):
+    # Fetch active work permits with related location data
+    permits = PTW.objects.filter(status='authorized').select_related('work_location')
+
+    # Prepare location data for the template
+    locations = [
+        {
+            'name': permit.work_location.name,
+            'x': permit.work_location.x,
+            'y': permit.work_location.y,
+            'permit_id': permit.id,
+            # Add any other permit data you need
+        }
+        for permit in permits
+    ]
+
+    context = {
+        'locations': locations,
+    }
+
+    return render(request, 'ptw/board.html', context)
+
+
 class IsolationActiveView(generic.ListView):
     template_name = 'ptw/isolation_index.html'
     context_object_name = 'active_isolations'
